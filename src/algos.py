@@ -1,16 +1,16 @@
 import networkx as nx
 import heapq
 
-def main():
-    graph = nx.Graph()
-    graph.add_edge('A', 'B', weight=1)
-    graph.add_edge('A', 'C', weight=4)
-    graph.add_edge('B', 'C', weight=2)
-    graph.add_edge('B', 'D', weight=5)
-    graph.add_edge('C', 'D', weight=1)
-
-    print(dijkstra(graph, 'A', 'D'))
-
+#def main():
+#    graph = nx.Graph()
+#    graph.add_edge('A', 'B', weight=1)
+#    graph.add_edge('A', 'C', weight=4)
+#    graph.add_edge('B', 'C', weight=2)
+#    graph.add_edge('B', 'D', weight=5)
+#    graph.add_edge('C', 'D', weight=1)
+#
+#    print(dijkstra(graph, 'A', 'D'))
+#
 def dijkstra(G: nx.Graph, source, target):
     minHeap = [(0, source)]
     visited = set()
@@ -50,5 +50,3 @@ def bidirectional_dijkstra(G: nx.Graph, source, target):
     distances_start[source] = 0
     distances_end[target] = 0
 
-if __name__ == '__main__':
-    main()
