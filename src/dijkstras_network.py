@@ -83,4 +83,4 @@ plt.show()
 #edges_no_weight = list(G.edges())
 #print(edges_no_weight)
 
-print(dijkstra(G, 'ROA', 'LAX'))
+print("The shortest path from ROA to LAX is: " + str(dijkstra(G, 'ROA', 'LAX')))
