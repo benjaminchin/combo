@@ -137,4 +137,17 @@ def dijkstra(G: nx.Graph, source, target):
                 
     return distances[target]
 
+def bidirectional_dijkstra(G: nx.Graph, source, target):
+    heap_start = [(0, source)]
+    heap_end = [(0, target)]
+
+    visited_start = set()
+    visited_end = set()
+
+    distances_start = {node: float('inf') for node in G.nodes}
+    distances_end = {node: float('inf') for node in G.nodes}
+
+    distances_start[source] = 0
+    distances_end[target] = 0
+
 # main()
