@@ -1,4 +1,4 @@
-#!/home/ben/dev/vt/combo/dijkstra/.venv/bin/python3
+#!/home/ben/vt/combo/combo/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

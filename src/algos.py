@@ -10,7 +10,7 @@ import heapq
 #    graph.add_edge('C', 'D', weight=1)
 #
 #    print(dijkstra(graph, 'A', 'D'))
-#
+
 def dijkstra(G: nx.Graph, source, target):
     minHeap = [(0, source)]
     visited = set()
@@ -20,8 +20,8 @@ def dijkstra(G: nx.Graph, source, target):
 
     while minHeap:
         d, v, = heapq.heappop(minHeap)
-        if v == target:
-            return d
+        #if v == target:
+            #return d
 
         if v in visited:
             continue
@@ -50,3 +50,27 @@ def bidirectional_dijkstra(G: nx.Graph, source, target):
     distances_start[source] = 0
     distances_end[target] = 0
 
+
+def heuristic(a, b):
+    pass
+
+
+def astar(G: nx.Graph, source, target):
+    heap = [(0, source)]
+    distances = {source: 0}
+
+    while heap:
+        (d, v) = heapq.heappop(heap)
+
+        if v == target:
+            break
+
+        for neighbor in G.neighbors(v):
+            distance = distances[v] + G.edges[v, neighbor]['weight']
+
+            if neighbor not in distances or distance < distances[neighbor]:
+                distances[neighbor] = distance
+                priority = distance + heuristic(target, neighbor)
+                heapq.heappush(heap, (priority, neighbor))
+
+    return distances[target]
