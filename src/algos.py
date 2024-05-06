@@ -1,16 +1,15 @@
 import networkx as nx
 import heapq
 
-#def main():
-#    graph = nx.Graph()
-#    graph.add_edge('A', 'B', weight=1)
-#    graph.add_edge('A', 'C', weight=4)
-#    graph.add_edge('B', 'C', weight=2)
-#    graph.add_edge('B', 'D', weight=5)
-#    graph.add_edge('C', 'D', weight=1)
-#
-#    print(dijkstra(graph, 'A', 'D'))
+'''
+MATH 3134 Research Project S24
+Team Name: TBD Front Left
+'''
 
+'''
+Dijkstra's Algorithm on a graph G
+Calculates the shortest path between vertices source and target.
+'''
 def dijkstra(G: nx.Graph, source, target):
     minHeap = [(0, source)]
     visited = set()
@@ -19,9 +18,10 @@ def dijkstra(G: nx.Graph, source, target):
     distances[source] = 0
 
     while minHeap:
-        d, v, = heapq.heappop(minHeap)
-        #if v == target:
-            #return d
+        d, v = heapq.heappop(minHeap)
+
+        if v == target:
+            return distances[target]
 
         if v in visited:
             continue
@@ -31,46 +31,32 @@ def dijkstra(G: nx.Graph, source, target):
             weight = G.edges[v, neighbor]['weight']
             distance = d + weight
 
-            if distance < distances[neighbor]:
+            if neighbor not in visited and distance < distances[neighbor]:
                 distances[neighbor] = distance
                 heapq.heappush(minHeap, (distance, neighbor))
 
-    return distances[target]
-    
-def bidirectional_dijkstra(G: nx.Graph, source, target):
-    heap_start = [(0, source)]
-    heap_end = [(0, target)]
+    return float('inf') # path not possible
 
-    visited_start = set()
-    visited_end = set()
-
-    distances_start = {node: float('inf') for node in G.nodes}
-    distances_end = {node: float('inf') for node in G.nodes}
-
-    distances_start[source] = 0
-    distances_end[target] = 0
-
-
-def heuristic(a, b):
-    pass
-
-
-def astar(G: nx.Graph, source, target):
-    heap = [(0, source)]
+'''
+Uniform Cost Search algorithm on a graph G
+Calculates the shortest path between vertices source and target.
+'''
+def uniform_cost_search(G: nx.Graph, source, target):
     distances = {source: 0}
+    queue = [(0, source)]
 
-    while heap:
-        (d, v) = heapq.heappop(heap)
+    while queue:
+        cost, node = queue.pop(0)
+        
+        if node == target:
+            return distances[node]
+        
+        for neighbor in G.neighbors(node):
+            total_cost = cost + G.edges[node, neighbor]['weight']
+            if neighbor not in distances or total_cost < distances[neighbor]:
+                distances[neighbor] = total_cost
+                queue.append((total_cost, neighbor))
+                queue.sort()
+                    
+    return float('inf') # path not possible
 
-        if v == target:
-            break
-
-        for neighbor in G.neighbors(v):
-            distance = distances[v] + G.edges[v, neighbor]['weight']
-
-            if neighbor not in distances or distance < distances[neighbor]:
-                distances[neighbor] = distance
-                priority = distance + heuristic(target, neighbor)
-                heapq.heappush(heap, (priority, neighbor))
-
-    return distances[target]
