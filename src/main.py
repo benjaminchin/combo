@@ -21,15 +21,14 @@ def generate_graph(n):
     nodes = list(range(n))
 
     # Create a spanning tree first to ensure connected graph
-    random.shuffle(nodes)
     for i in range(1, n):
-        g.add_edge(nodes[i-1], nodes[i], weight=random.randint(10, 100))
+        g.add_edge(nodes[i-1], nodes[i], weight=random.randint(1, 10))
 
     # Add additional edges randomly
     for i in range(n):
         for j in range(i+1, n):
             if not g.has_edge(i, j) and random.random() < 0.05:
-                g.add_edge(i, j, weight=random.randint(1, 100))
+                g.add_edge(i, j, weight=random.randint(1, 10))
 
     return g
 
@@ -62,14 +61,14 @@ def main():
     length = dijkstra(g, source, target)
     end = time.time()
     print('The shortest path between ' + str(source) + ' and ' + str(target) + ' is: ' + str(length))
-    print('Time elapsed (DIJKSTRA): ' + str((end - start) * 1000) + ' ms')
+    print('Time elapsed (DIJKSTRA): ' + str((end - start) * (10**6)) + ' μs')
 
     # Run and time uniform cost search alg
     start = time.time()
     length = uniform_cost_search(g, source, target)
     end = time.time()
     print('The shortest path between ' + str(source) + ' and ' + str(target) + ' is: ' + str(length))
-    print('Time elapsed (UCS): ' + str((end - start) * 100) + ' ms')
+    print('Time elapsed (UCS): ' + str((end - start) * (10**6)) + ' μs')
 
     # set colors
     color_map = []
@@ -81,11 +80,11 @@ def main():
 
     # draw node labels
     pos = nx.spring_layout(g)
-    nx.draw(g, pos, node_color=color_map, with_labels=True, font_size=14, node_size=400)
+    nx.draw(g, pos, node_color=color_map, with_labels=True, font_size=30, node_size=2000)
 
     # draw edge labels
     edge_labels = nx.get_edge_attributes(g, 'weight')
-    nx.draw_networkx_edge_labels(g, pos, edge_labels=edge_labels, font_size=8)
+    nx.draw_networkx_edge_labels(g, pos, edge_labels=edge_labels, font_size=16)
 
     # will show graph in new window
     plt.show()

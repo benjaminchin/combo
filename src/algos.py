@@ -20,9 +20,6 @@ def dijkstra(G: nx.Graph, source, target):
     while minHeap:
         d, v = heapq.heappop(minHeap)
 
-        if v == target:
-            return distances[target]
-
         if v in visited:
             continue
 
@@ -35,7 +32,7 @@ def dijkstra(G: nx.Graph, source, target):
                 distances[neighbor] = distance
                 heapq.heappush(minHeap, (distance, neighbor))
 
-    return float('inf') # path not possible
+    return distances[target]
 
 '''
 Uniform Cost Search algorithm on a graph G
@@ -43,10 +40,10 @@ Calculates the shortest path between vertices source and target.
 '''
 def uniform_cost_search(G: nx.Graph, source, target):
     distances = {source: 0}
-    queue = [(0, source)]
+    minHeap = [(0, source)]
 
-    while queue:
-        cost, node = queue.pop(0)
+    while minHeap:
+        cost, node = heapq.heappop(minHeap)
         
         if node == target:
             return distances[node]
@@ -55,8 +52,7 @@ def uniform_cost_search(G: nx.Graph, source, target):
             total_cost = cost + G.edges[node, neighbor]['weight']
             if neighbor not in distances or total_cost < distances[neighbor]:
                 distances[neighbor] = total_cost
-                queue.append((total_cost, neighbor))
-                queue.sort()
+                heapq.heappush(minHeap, (total_cost, neighbor))
                     
     return float('inf') # path not possible
 
